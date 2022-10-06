@@ -153,6 +153,12 @@ int main(int argc, char* argv[])
             return 0;
         }
 
+        if (kv.second == "-v" || kv.second == "--version")
+        {
+            std::cout << "Sayve (C++) v1.0\n";
+            return 0;
+        }
+
         else if (kv.second == "-l" || kv.second == "--list")
         {
             for (const auto& e : entries)
