@@ -262,12 +262,11 @@ int main(int argc, char* argv[])
             return 0;
         }
 
-        // FIXME: The current implementation of the args map has a reverse order which has side effects here.
-        // else
-        // {
-        //     std::cout << "Unrecognized arugment: " << soda::quotify(kv.second) << '\n';
-        //     return 1;
-        // }
+        else
+        {
+            std::cout << "Unrecognized arugment: " << soda::quotify(kv.second) << '\n';
+            return 1;
+        }
     }
 
     for (const auto& e : entries)
