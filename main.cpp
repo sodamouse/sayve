@@ -46,7 +46,6 @@ std::vector<Entry> parse_entries_file(const std::string& fp)
     return result;
 }
 
-// FIXME: This function can fail at multiple stages. Handle errors to return graciously.
 void backup_entry(const Entry& e)
 {
     if (!e.active)
@@ -60,12 +59,25 @@ void backup_entry(const Entry& e)
 
     auto destination = DEST + e.name;
 
-    if (!std::filesystem::exists(destination)) std::filesystem::create_directory(destination);
+    if (!std::filesystem::exists(destination))
+    {
+        if (!std::filesystem::create_directory(destination))
+        {
+            std::cerr << "Could not create directory: " << soda::quotify(destination) << '\n';
+            return;
+        }
+    }
 
     auto options = std::filesystem::copy_options::recursive | std::filesystem::copy_options::update_existing;
+    std::error_code ec {};
+
     std::filesystem::copy(e.path, destination, options);
 
-    std::cout << "Backed up: " << soda::quotify(e.name) << '\n';
+    if (ec)
+        std::cout << "Error backing up files: " << ec << '\n';
+
+    else
+        std::cout << "Backed up: " << soda::quotify(e.name) << '\n';
 }
 
 void dump_database(const std::string& fp, const std::vector<Entry>& entries)
