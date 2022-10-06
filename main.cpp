@@ -191,6 +191,7 @@ int main(int argc, char* argv[])
                 {
                     e.active = false;
                     dump_database(pathsFilePath, entries);
+                    std::cout << "Disabled: " << soda::quotify(args[index]) << '\n';
                 }
             }
 
@@ -212,6 +213,7 @@ int main(int argc, char* argv[])
                 {
                     e.active = true;
                     dump_database(pathsFilePath, entries);
+                    std::cout << "Enabled: " << soda::quotify(args[index]) << '\n';
                 }
             }
 
@@ -239,6 +241,7 @@ int main(int argc, char* argv[])
                     e.active = false;
 
                     dump_database(pathsFilePath, entries);
+                    std::cout << "Froze: " << soda::quotify(args[index]) << '\n';
                 }
             }
 
@@ -268,6 +271,7 @@ int main(int argc, char* argv[])
             });
 
             dump_database(pathsFilePath, entries);
+            std::cout << "Added: " << soda::quotify(args[nameIndex]) << '\n';
 
             return 0;
         }
@@ -287,6 +291,7 @@ int main(int argc, char* argv[])
                 {
                     entries.erase(entries.begin() + i);
                     dump_database(pathsFilePath, entries);
+                    std::cout << "Deleted: " << soda::quotify(args[index]) << '\n';
                 }
             }
 
