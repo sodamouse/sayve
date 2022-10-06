@@ -16,7 +16,7 @@ struct Entry
     friend std::ostream& operator<<(std::ostream& stream, const Entry& e)
     {
         stream << (e.active ? "[A] " : "[D] ");
-        stream << e.name << "\n\t" << e.path << '\n';
+        stream << e.name << "\n\t" << e.path;
         return stream;
     }
 };
@@ -29,7 +29,6 @@ std::vector<Entry> parse_entries_file(const std::string& fp)
     std::vector<Entry> result;
     for (const auto& r : rawEntries)
     {
-        // FIXME: Use filter/views here(?)
         if (r.length() == 0)
             continue;
 
@@ -80,6 +79,34 @@ void backup_entry(const Entry& e)
         std::cout << "Backed up: " << soda::quotify(e.name) << '\n';
 }
 
+void restore_entry(Entry& e)
+{
+    if (!std::filesystem::exists(e.path))
+    {
+        if (!std::filesystem::create_directory(e.path))
+        {
+            std::cout << "Could not create: " << soda::quotify(e.path) << '\n';
+            return;
+        }
+    }
+
+    auto src = DEST + e.name;
+    auto options = std::filesystem::copy_options::recursive | std::filesystem::copy_options::update_existing;
+    std::error_code ec {};
+
+    std::filesystem::copy(src, e.path, options);
+
+    if (ec)
+        std::cout << "Error restoring files: " << ec << '\n';
+
+    else
+    {
+        e.active = true;
+        std::cout << "Restored: " << soda::quotify(e.name) << '\n';
+    }
+
+}
+
 void dump_database(const std::string& fp, const std::vector<Entry>& entries)
 {
     std::fstream file(fp, std::ios::out);
@@ -98,10 +125,10 @@ void print_usage()
             << "\t-h, --help\t\tDisplay this message\n"
             << "\t-v, --version\t\tDisplay program version information\n"
             << "\t-l, --list\t\tList database entries\n"
+            << "\t-r, --restore <e>\tRestore saves from backup\n"
             << "\t-d, --disable <e>\tDisable entry\n"
             << "\t-e, --enable <e>\tEnable entry\n"
-            << "\t-r, --restore <e>\tRestore saves from backup\n"
-            << "\t-f, --freeze <e>\tBackup entry and delete the source files\n"
+            << "\t-f, --freeze <e>\tBackup entry and delete the save files at source\n"
             << "\t-a, --add <name> <path>\tAdd entry\n"
             << "\t-x, --delete <e>\tDelete entry\n";
 }
@@ -123,7 +150,28 @@ int main(int argc, char* argv[])
         else if (kv.second == "-l" || kv.second == "--list")
         {
             for (const auto& e : entries)
-                std::cout << e << '\n';
+                std::cout << e << "\n\n";
+
+            return 0;
+        }
+
+        else if (kv.second == "-r" || kv.second == "--restore")
+        {
+            std::size_t index = kv.first + 1;
+            if (args.size() < index)
+            {
+                std::cout << "Please specify entry to restore.\n";
+                return 1;
+            }
+
+            for (auto& e : entries)
+            {
+                if (!e.name.compare(args[index]))
+                {
+                    restore_entry(e);
+                    dump_database(pathsFilePath, entries);
+                }
+            }
 
             return 0;
         }
@@ -163,35 +211,6 @@ int main(int argc, char* argv[])
                 if (!e.name.compare(args[index]))
                 {
                     e.active = true;
-                    dump_database(pathsFilePath, entries);
-                }
-            }
-
-            return 0;
-        }
-
-        else if (kv.second == "-r" || kv.second == "--restore")
-        {
-            std::size_t index = kv.first + 1;
-            if (args.size() < index)
-            {
-                std::cout << "Please specify entry to restore.\n";
-                return 1;
-            }
-
-            for (auto& e : entries)
-            {
-                if (!e.name.compare(args[index]))
-                {
-                    e.active = true;
-
-                    if (!std::filesystem::exists(e.path))
-                        std::filesystem::create_directory(e.path);
-
-                    auto src = DEST + e.name;
-                    auto options = std::filesystem::copy_options::recursive | std::filesystem::copy_options::update_existing;
-                    std::filesystem::copy(src, e.path, options);
-
                     dump_database(pathsFilePath, entries);
                 }
             }
