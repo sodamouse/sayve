@@ -111,6 +111,12 @@ void dump_database(const std::string& fp, const std::vector<Entry>& entries)
 {
     std::fstream file(fp, std::ios::out);
 
+    if (!file)
+    {
+        std::cout << "Could not save database file: " << soda::quotify(fp) << '\n';
+        return;
+    }
+
     for (const auto& e : entries)
     {
         if (!e.active) file << '#';
@@ -300,7 +306,7 @@ int main(int argc, char* argv[])
 
         else
         {
-            std::cout << "Unrecognized arugment: " << soda::quotify(kv.second) << '\n';
+            std::cerr << "Unrecognized arugment: " << soda::quotify(kv.second) << '\n';
             return 1;
         }
     }
