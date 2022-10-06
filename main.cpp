@@ -73,7 +73,7 @@ void backup_entry(const Entry& e)
     std::filesystem::copy(e.path, destination, options);
 
     if (ec)
-        std::cout << "Error backing up files: " << ec << '\n';
+        std::cerr << "Error backing up files: " << ec << '\n';
 
     else
         std::cout << "Backed up: " << soda::quotify(e.name) << '\n';
@@ -85,7 +85,7 @@ void restore_entry(Entry& e)
     {
         if (!std::filesystem::create_directory(e.path))
         {
-            std::cout << "Could not create: " << soda::quotify(e.path) << '\n';
+            std::cerr << "Could not create: " << soda::quotify(e.path) << '\n';
             return;
         }
     }
@@ -97,7 +97,7 @@ void restore_entry(Entry& e)
     std::filesystem::copy(src, e.path, options);
 
     if (ec)
-        std::cout << "Error restoring files: " << ec << '\n';
+        std::cerr << "Error restoring files: " << ec << '\n';
 
     else
     {
