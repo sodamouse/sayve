@@ -5,15 +5,6 @@
 
 namespace soda {
 
-std::string quotify(const std::string& str)
-{
-    std::string result = "\"";
-    result += str;
-    result += "\"";
-
-    return result;
-}
-
 std::string read_all(const std::string& filePath)
 {
     std::fstream file(filePath, std::ios::in);

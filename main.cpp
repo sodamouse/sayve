@@ -1,9 +1,33 @@
+/* The MIT License (MIT)
+
+Copyright (c) 2022 Sodamouse
+
+Permission is hereby granted, free of charge, to any person obtaining
+a copy of this software and associated documentation files (the
+"Software"), to deal in the Software without restriction, including
+without limitation the rights to use, copy, modify, merge, publish,
+distribute, sublicense, and/or sell copies of the Software, and to
+permit persons to whom the Software is furnished to do so, subject to
+the following conditions:
+
+The above copyright notice and this permission notice shall be
+included in all copies or substantial portions of the Software.
+
+THE SOFTWARE IS PROVIDED "AS IS", WITHOUT WARRANTY OF ANY KIND,
+EXPRESS OR IMPLIED, INCLUDING BUT NOT LIMITED TO THE WARRANTIES OF
+MERCHANTABILITY, FITNESS FOR A PARTICULAR PURPOSE AND NONINFRINGEMENT.
+IN NO EVENT SHALL THE AUTHORS OR COPYRIGHT HOLDERS BE LIABLE FOR ANY
+CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
+TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
+SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
+
 #include "environment.hpp"
 #include "strings.hpp"
 #include <algorithm>
 #include <filesystem>
 #include <fstream>
 #include <iostream>
+#include <iomanip>
 
 const std::string DEST = "/mnt/archive/saves/";
 
@@ -52,7 +76,7 @@ void backup_entry(const Entry& e)
 
     if (!std::filesystem::exists(e.path))
     {
-        std::cout << "Skipping " << e.name << ": " << soda::quotify(e.path) << " does not exist.\n";
+        std::cout << "Skipping " << e.name << ": " << std::quoted(e.path) << " does not exist.\n";
         return;
     }
 
@@ -62,7 +86,7 @@ void backup_entry(const Entry& e)
     {
         if (!std::filesystem::create_directory(destination))
         {
-            std::cerr << "Could not create directory: " << soda::quotify(destination) << '\n';
+            std::cerr << "Could not create directory: " << std::quoted(destination) << '\n';
             return;
         }
     }
@@ -76,7 +100,7 @@ void backup_entry(const Entry& e)
         std::cerr << "Error backing up files: " << ec << '\n';
 
     else
-        std::cout << "Backed up: " << soda::quotify(e.name) << '\n';
+        std::cout << "Backed up: " << std::quoted(e.name) << '\n';
 }
 
 void restore_entry(Entry& e)
@@ -85,7 +109,7 @@ void restore_entry(Entry& e)
     {
         if (!std::filesystem::create_directory(e.path))
         {
-            std::cerr << "Could not create: " << soda::quotify(e.path) << '\n';
+            std::cerr << "Could not create: " << std::quoted(e.path) << '\n';
             return;
         }
     }
@@ -102,7 +126,7 @@ void restore_entry(Entry& e)
     else
     {
         e.active = true;
-        std::cout << "Restored: " << soda::quotify(e.name) << '\n';
+        std::cout << "Restored: " << std::quoted(e.name) << '\n';
     }
 
 }
@@ -113,7 +137,7 @@ void dump_database(const std::string& fp, const std::vector<Entry>& entries)
 
     if (!file)
     {
-        std::cout << "Could not save database file: " << soda::quotify(fp) << '\n';
+        std::cout << "Could not save database file: " << std::quoted(fp) << '\n';
         return;
     }
 
@@ -203,7 +227,7 @@ int main(int argc, char* argv[])
                 {
                     e.active = false;
                     dump_database(pathsFilePath, entries);
-                    std::cout << "Disabled: " << soda::quotify(args[index]) << '\n';
+                    std::cout << "Disabled: " << std::quoted(args[index]) << '\n';
                 }
             }
 
@@ -225,7 +249,7 @@ int main(int argc, char* argv[])
                 {
                     e.active = true;
                     dump_database(pathsFilePath, entries);
-                    std::cout << "Enabled: " << soda::quotify(args[index]) << '\n';
+                    std::cout << "Enabled: " << std::quoted(args[index]) << '\n';
                 }
             }
 
@@ -253,7 +277,7 @@ int main(int argc, char* argv[])
                     e.active = false;
 
                     dump_database(pathsFilePath, entries);
-                    std::cout << "Froze: " << soda::quotify(args[index]) << '\n';
+                    std::cout << "Froze: " << std::quoted(args[index]) << '\n';
                 }
             }
 
@@ -283,7 +307,7 @@ int main(int argc, char* argv[])
             });
 
             dump_database(pathsFilePath, entries);
-            std::cout << "Added: " << soda::quotify(args[nameIndex]) << '\n';
+            std::cout << "Added: " << std::quoted(args[nameIndex]) << '\n';
 
             return 0;
         }
@@ -303,7 +327,7 @@ int main(int argc, char* argv[])
                 {
                     entries.erase(entries.begin() + i);
                     dump_database(pathsFilePath, entries);
-                    std::cout << "Deleted: " << soda::quotify(args[index]) << '\n';
+                    std::cout << "Deleted: " << std::quoted(args[index]) << '\n';
                 }
             }
 
@@ -312,7 +336,7 @@ int main(int argc, char* argv[])
 
         else
         {
-            std::cerr << "Unrecognized arugment: " << soda::quotify(kv.second) << '\n';
+            std::cerr << "Unrecognized arugment: " << std::quoted(kv.second) << '\n';
             return 1;
         }
     }
