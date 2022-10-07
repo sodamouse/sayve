@@ -3,7 +3,7 @@ Sayve is a cross-platform, command-line utility written in C++ that automates ba
 
 ## Building
 ``` shell
-git clone https://github.com/sodamouse/sayve.git && cd sayve
+git clone --recursive https://github.com/sodamouse/sayve.git && cd sayve
 make
 ```
 
