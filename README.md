@@ -9,13 +9,15 @@ make
 
 ## Usage
 Sayve stores its database as a plain-text file in $HOME/.config/sayve/paths.conf. Populate this file with entries following this exact format:
-
 ``` shell
 name of the game:path to its save file
 ```
 
-On run, unless an optional command-line argument is supplied, Sayve will backup each of the entries in a directory heirarchy rooted in... This path is currently hard-coded.
+Alternatively, use the --add <name> <path> argument to add entries through the program itself.
 
+When run, and unless a command-line argument is supplied, Sayve will backup each of the entries in a directory heirarchy rooted at /mnt/archive/saves/. This path is currently hard-coded, but will later be exposed to a config file.
+
+The program currently supports the following cli-aruments:
 ``` shell
 Usage: sayve [options]
     -h, --help                Display this message
