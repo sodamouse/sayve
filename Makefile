@@ -1,4 +1,4 @@
-INPUTS = main.cpp environment.cpp strings.cpp
+INPUTS = src/main.cpp src/environment.cpp src/strings.cpp
 CC = clang++
 CFLAGS = -std=c++20 -Wall -Wextra -Wpedantic
 OUTPUT = sayve
