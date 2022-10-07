@@ -21,13 +21,14 @@ CLAIM, DAMAGES OR OTHER LIABILITY, WHETHER IN AN ACTION OF CONTRACT,
 TORT OR OTHERWISE, ARISING FROM, OUT OF OR IN CONNECTION WITH THE
 SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 
-#include "../vendor/soda/include/soda/environment.hpp"
-#include "../vendor/soda/include/soda/strings.hpp"
+#include <soda/environment.hpp>
+#include <soda/strings.hpp>
+
 #include <algorithm>
 #include <filesystem>
 #include <fstream>
-#include <iostream>
 #include <iomanip>
+#include <iostream>
 #include <ranges>
 
 const std::string VERSION = "Sayve (C++) v1.1.1";
