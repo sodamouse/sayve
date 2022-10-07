@@ -29,6 +29,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 #include <iostream>
 #include <iomanip>
 
+const std::string VERSION = "Sayve (C++) v1.0.2";
 const std::string DEST = "/mnt/archive/saves/";
 
 struct Entry
@@ -179,7 +180,7 @@ int main(int argc, char* argv[])
 
         if (kv.second == "-v" || kv.second == "--version")
         {
-            std::cout << "Sayve (C++) v1.0\n";
+            std::cout << VERSION << '\n';
             return 0;
         }
 
