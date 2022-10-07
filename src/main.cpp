@@ -29,7 +29,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 #include <iostream>
 #include <iomanip>
 
-const std::string VERSION = "Sayve (C++) v1.0.2";
+const std::string VERSION = "Sayve (C++) v1.1.0";
 const std::string DEST = "/mnt/archive/saves/";
 
 struct Entry
