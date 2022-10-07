@@ -1,0 +1,3 @@
+[submodule "vendor/soda"]
+	path = vendor/soda
+	url = https://github.com/sodamouse/soda.git

@@ -1,4 +1,4 @@
-INPUTS = src/main.cpp src/environment.cpp src/strings.cpp
+INPUTS = src/main.cpp vendor/soda/src/environment.cpp vendor/soda/src/strings.cpp
 CC = clang++
 CFLAGS = -std=c++20 -Wall -Wextra -Wpedantic
 OUTPUT = sayve
