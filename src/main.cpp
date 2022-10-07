@@ -172,6 +172,10 @@ int main(int argc, char* argv[])
 
     for (const auto& kv : args)
     {
+        // FIXME: Ranges or views should be used here to avoid this if guard
+        if (kv.first == 0)
+            continue;
+
         if (kv.second == "-h" || kv.second == "--help")
         {
             print_usage();
