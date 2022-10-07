@@ -107,7 +107,7 @@ void restore_entry(Entry& e)
 {
     if (!std::filesystem::exists(e.path))
     {
-        if (!std::filesystem::create_directory(e.path))
+        if (!std::filesystem::create_directories(e.path))
         {
             std::cerr << "Could not create: " << std::quoted(e.path) << '\n';
             return;
