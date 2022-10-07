@@ -28,8 +28,9 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 #include <fstream>
 #include <iostream>
 #include <iomanip>
+#include <ranges>
 
-const std::string VERSION = "Sayve (C++) v1.1.0";
+const std::string VERSION = "Sayve (C++) v1.1.1";
 const std::string DEST = "/mnt/archive/saves/";
 
 struct Entry
@@ -174,12 +175,8 @@ int main(int argc, char* argv[])
     auto entries = parse_entries_file(pathsFilePath);
     auto args = soda::map_args(argc, argv);
 
-    for (const auto& kv : args)
+    for (const auto& kv : args | std::views::drop(1))
     {
-        // FIXME: Ranges or views should be used here to avoid this if guard
-        if (kv.first == 0)
-            continue;
-
         if (kv.second == "-h" || kv.second == "--help")
         {
             print_usage();
