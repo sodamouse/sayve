@@ -67,6 +67,10 @@ std::vector<Entry> parse_entries_file(const std::string& fp)
         });
     }
 
+    std::sort(result.begin(), result.end(), [](const Entry& a, const Entry& b) {
+        return a.name < b.name;
+    });
+
     return result;
 }
 
