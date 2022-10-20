@@ -31,7 +31,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 #include <iostream>
 #include <ranges>
 
-const std::string VERSION = "Sayve (C++) v1.2.0";
+const std::string VERSION = "Sayve (C++) v1.2.1";
 std::string SAYVE_ROOT = "./";
 
 struct Entry
@@ -173,7 +173,7 @@ void print_usage()
 int main(int argc, char* argv[])
 {
     try {
-        std::string SAYVE_ROOT_ENV = std::getenv("SYVE_ROOT");
+        std::string SAYVE_ROOT_ENV = std::getenv("SAYVE_ROOT");
         if (std::filesystem::exists(SAYVE_ROOT_ENV))
             SAYVE_ROOT = SAYVE_ROOT_ENV;
     }
