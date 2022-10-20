@@ -31,8 +31,8 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 #include <iostream>
 #include <ranges>
 
-const std::string VERSION = "Sayve (C++) v1.1.1";
-const std::string DEST = "/mnt/archive/saves/";
+const std::string VERSION = "Sayve (C++) v1.2.0";
+std::string SAYVE_ROOT = "./";
 
 struct Entry
 {
@@ -87,7 +87,7 @@ void backup_entry(const Entry& e)
         return;
     }
 
-    auto destination = DEST + e.name;
+    auto destination = SAYVE_ROOT + e.name;
 
     if (!std::filesystem::exists(destination))
     {
@@ -121,7 +121,7 @@ void restore_entry(Entry& e)
         }
     }
 
-    auto src = DEST + e.name;
+    auto src = SAYVE_ROOT + e.name;
     auto options = std::filesystem::copy_options::recursive | std::filesystem::copy_options::update_existing;
     std::error_code ec {};
 
@@ -172,6 +172,16 @@ void print_usage()
 
 int main(int argc, char* argv[])
 {
+    try {
+        std::string SAYVE_ROOT_ENV = std::getenv("SYVE_ROOT");
+        if (std::filesystem::exists(SAYVE_ROOT_ENV))
+            SAYVE_ROOT = SAYVE_ROOT_ENV;
+    }
+
+    catch (const std::logic_error& error) {
+        std::cout << "Path determined by SAYVE_ROOT does not exist. Using current directory as root instead.\n";
+    }
+
     std::string pathsFilePath = "/home/soda/.config/sayve/paths.conf";
     auto entries = parse_entries_file(pathsFilePath);
     auto args = soda::map_args(argc, argv);
