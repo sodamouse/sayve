@@ -179,7 +179,7 @@ int main(int argc, char* argv[])
     }
 
     catch (const std::logic_error& error) {
-        std::cout << "Path determined by SAYVE_ROOT does not exist. Using current directory as root instead.\n";
+        std::cout << "Invalid SAYVE_ROOT path. Using application's current directory as root instead.\n";
     }
 
     std::string pathsFilePath = "/home/soda/.config/sayve/paths.conf";
