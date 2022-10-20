@@ -31,7 +31,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 #include <iostream>
 #include <ranges>
 
-const std::string VERSION = "Sayve (C++) v1.2.1";
+const std::string VERSION = "Sayve (C++) v1.2.2";
 std::string SAYVE_ROOT = "./";
 
 struct Entry
@@ -305,13 +305,13 @@ int main(int argc, char* argv[])
         {
             std::size_t nameIndex = kv.first + 1;
             std::size_t pathIndex = kv.first + 2;
-            if (args.size() < nameIndex)
+            if (args.size() < nameIndex + 1)
             {
                 std::cout << "Please specify the name and path to the entry.\n";
                 return 1;
             }
 
-            if (args.size() < pathIndex)
+            if (args.size() < pathIndex + 1)
             {
                 std::cout << "Please specify the path to the entry.\n";
                 return 1;
