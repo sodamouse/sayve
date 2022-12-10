@@ -31,7 +31,7 @@ SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 #include <iostream>
 #include <ranges>
 
-const std::string VERSION = "Sayve (C++) v1.2.2";
+const std::string VERSION = "Sayve (C++) v1.2.3";
 std::string SAYVE_ROOT = "./";
 
 struct Entry
@@ -108,6 +108,9 @@ void backup_entry(const Entry& e)
 
     else
         std::cout << "Backed up: " << std::quoted(e.name) << '\n';
+
+    std::fstream pathFile(destination + "/sayve_path.txt", std::ios::out);
+    pathFile << e.path;
 }
 
 void restore_entry(Entry& e)
